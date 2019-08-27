@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>我的播放器</title>
+</head>
+
+<body>
+  <div>
+    <div style="text-align: center;">
+      <input id="inputVal" value="周杰伦" type="text">
+      <span onclick="search_btn()">搜索</span>
+    </div>
+
+    <div>
+      <div id="song-list">
+      </div>
+    </div>
+
+    <div>
+      <audio controls src="">
+        您的浏览器不支持 audio 标签。
+      </audio>
+    </div>
+  </div>
+  <script>
+    var list = []
+    function search_btn() {
+      var val = document.querySelector('#inputVal').value
+      search_fuc(val)
+    }
+    function search_fuc(val) {
+      axios.get(`http://pd.musicapp.migu.cn/MIGUM2.0/v1.0/content/search_all.do?&ua=Android_migu&version=5.0.1&text=${encodeURI(val)}&pageNo=1&pageSize=10&searchSwitch={"song":1,"album":0,"singer":0,"tagSong":0,"mvSong":0,"songlist":0,"bestShow":1}`, {
+      }).then(res => {
+        console.log(res)
+        if (res.data.code === '000000') {
+          list = res.data.songResultData.result
+          createNode()
+        } else {
+          alert(res.data.info)
+        }
+      })
+    }
+    function createSingleNode(val) {
+      return `<div onclick="sing(this)" data-contentId="${val.contentId}" ><span>${val.singers[0].name}</span> - <span>${val.name}</span></div>`
+    }
+    function createNode() {
+      var node = '<div>'
+      list.map(i => {
+        node += createSingleNode(i)
+      })
+      node += '</div>'
+      document.querySelector('#song-list').innerHTML = node
+    }
+    function sing($event) {
+      let contentId = $event.dataset.contentid
+      // 无损 formatType = SQ resourceType = E
+      // 高品 formatType = HQ resourceType = 2
+      let uri = `http://app.pd.nf.migu.cn/MIGUM2.0/v1.0/content/sub/listenSong.do?toneFlag=HQ&netType=00&userId=15548614588710179085069&ua=Android_migu&version=5.1&copyrightId=0&contentId=${contentId}&resourceType=2&channel=1`
+      document.querySelector('audio').src = uri
+    }
+  </script>
+</body>
+
+</html>
