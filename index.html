@@ -5,8 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <link rel="icon" href="data:image/ico;base64,aWNv">
   <title>我的播放器</title>
+  <style>
+    .pointer {
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,31 +28,39 @@
     </div>
 
     <div>
-      <audio controls src="">
+      <audio controls autoplay src="">
         您的浏览器不支持 audio 标签。
       </audio>
     </div>
   </div>
   <script>
     var list = []
+
+    function xhr(val) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("get", `http://pd.musicapp.migu.cn/MIGUM2.0/v1.0/content/search_all.do?&ua=Android_migu&version=5.0.1&text=${encodeURI(val)}&pageNo=1&pageSize=30&searchSwitch={"song":1,"album":0,"singer":0,"tagSong":0,"mvSong":0,"songlist":0,"bestShow":1}`, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            let res = JSON.parse(xhr.responseText)
+            if (res.code === '000000') {
+              list = res.songResultData.result
+              createNode()
+            } else {
+              alert(res.info)
+            }
+          }
+        }
+      }
+      xhr.send();
+    }
+
     function search_btn() {
       var val = document.querySelector('#inputVal').value
-      search_fuc(val)
-    }
-    function search_fuc(val) {
-      axios.get(`http://pd.musicapp.migu.cn/MIGUM2.0/v1.0/content/search_all.do?&ua=Android_migu&version=5.0.1&text=${encodeURI(val)}&pageNo=1&pageSize=10&searchSwitch={"song":1,"album":0,"singer":0,"tagSong":0,"mvSong":0,"songlist":0,"bestShow":1}`, {
-      }).then(res => {
-        console.log(res)
-        if (res.data.code === '000000') {
-          list = res.data.songResultData.result
-          createNode()
-        } else {
-          alert(res.data.info)
-        }
-      })
+      xhr(val)
     }
     function createSingleNode(val) {
-      return `<div onclick="sing(this)" data-contentId="${val.contentId}" ><span>${val.singers[0].name}</span> - <span>${val.name}</span></div>`
+      return `<div class="pointer" onclick="sing(this)" data-contentId="${val.contentId}" ><span>${val.singers[0].name}</span> - <span>${val.name}</span></div>`
     }
     function createNode() {
       var node = '<div>'
