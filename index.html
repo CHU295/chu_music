@@ -26,9 +26,9 @@
       <input id="searchValue" value="周杰伦" type="text" oninput="change(this,'searchValue')"
         onkeydown="keyDown(event,this)">
       <input id="currentPage" class="short-input" value="1" type="text" oninput="change(this,'currentPage')"
-        onkeydown="keyDown(this)">
+        onkeydown="keyDown(event,this)">
       <input id="pageSize" class="short-input" value="10" type="text" oninput="change(this,'pageSize')"
-        onkeydown="keyDown(this)">
+        onkeydown="keyDown(event,this)">
       <span class="pointer" onclick="search_btn()">搜索</span>
     </div>
     <div id="operation" style="visibility: hidden;">
@@ -68,7 +68,6 @@
 
     function change(e, type) {
       window[type] = document.querySelector(`#${type}`).value
-      document.querySelector('#search_type').innerHTML = `总数量：${total}&nbsp;&nbsp;&nbsp;&nbsp;当前页数：${currentPage}&nbsp;&nbsp;&nbsp;&nbsp;每页条数：${pageSize}`
     }
 
     function search_btn() {
@@ -108,6 +107,7 @@
             if (res.code === '000000') {
               list = res.songResultData.result || []
               total = res.songResultData.totalCount
+              document.querySelector('#search_type').innerHTML = `总数量：${total}&nbsp;&nbsp;&nbsp;&nbsp;当前页数：${currentPage}&nbsp;&nbsp;&nbsp;&nbsp;每页条数：${pageSize}`
               createNode()
             } else {
               alert(res.info)
@@ -119,7 +119,7 @@
     }
 
     function createSingleNode(val) {
-      return `<div class="pointer" ><span>${val.singers[0].name}</span> - <span onclick="checkSong(this)" data-contentId="${val.contentId}">${val.name}</span></div>`
+      return `<div class="pointer" ><span>${val.singers && val.singers.length > 0 ? val.singers[0].name : ''}</span> - <span onclick="checkSong(this)" data-contentId="${val.contentId}">${val.name}</span></div>`
     }
     function createNode() {
       var node = '<div>'
