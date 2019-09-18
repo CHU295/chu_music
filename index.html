@@ -23,9 +23,12 @@
 <body>
   <div>
     <div style="text-align: center;">
-      <input id="searchValue" value="周杰伦" type="text" oninput="change(this,'searchValue')">
-      <input id="currentPage" class="short-input" value="1" type="text" oninput="change(this,'currentPage')">
-      <input id="pageSize" class="short-input" value="10" type="text" oninput="change(this,'pageSize')">
+      <input id="searchValue" value="周杰伦" type="text" oninput="change(this,'searchValue')"
+        onkeydown="keyDown(event,this)">
+      <input id="currentPage" class="short-input" value="1" type="text" oninput="change(this,'currentPage')"
+        onkeydown="keyDown(this)">
+      <input id="pageSize" class="short-input" value="10" type="text" oninput="change(this,'pageSize')"
+        onkeydown="keyDown(this)">
       <span class="pointer" onclick="search_btn()">搜索</span>
     </div>
     <div id="operation" style="visibility: hidden;">
@@ -56,6 +59,12 @@
     audio.onended = function () {
       randomGet()
     };
+
+    function keyDown(event, el) {
+      if (event.keyCode === 13) {
+        search_btn()
+      }
+    }
 
     function change(e, type) {
       window[type] = document.querySelector(`#${type}`).value
