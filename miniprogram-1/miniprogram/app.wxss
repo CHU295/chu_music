@@ -1,0 +1,30 @@
+/**app.wxss**/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 16rpx;
+}
+
+.searchInput {
+  width: 93%;
+  height: 50rpx;
+  text-align: center;
+  background: rgb(244, 247, 249);
+  border-radius: 40rpx;
+  margin: 10rpx 0 0;
+}
+.music-list {
+  margin: 30rpx 0 0;
+  text-align: left;
+}
+.part {
+  margin: 10rpx 0;
+}
+
+.more {
+  color: #ddd;
+  margin: 30rpx 0 0;
+}

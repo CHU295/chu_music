@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+
+  <view class="searchInput">
+    <input class="" auto-focus placeholder="输入歌曲、歌手" bindinput="bindKeyInput" bindconfirm="searchMusic" confirm-type="搜索" />
+  </view>
+
+  <view class="music-list">
+    <view class="part" wx:for="{{musicList}}" wx:key="{{index}}" bindtap="checkSong" data-data="{{item}}">
+      <text>{{index+1}}.</text>
+      <text>{{item.singers && item.singers.length > 0 ? item.singers[0].name : ''}}</text>
+      <text> - {{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="more">
+    单曲结束自动随机播放
+  </view>
+
+</view>
