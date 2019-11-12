@@ -1,4 +1,4 @@
-demo：https://chu295.github.io/295/
+demo：http://118.25.55.180:2951/
 
 # chu_music
 网页音乐播放器，仅1.4K，支持咪咕等等，随心更新中~~
