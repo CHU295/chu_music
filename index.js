@@ -47,7 +47,7 @@ function randomGet() {
   var random = Math.random()
   var length = list.length
   random = Math.floor(random * length)
-  sing(list[random].contentId)
+  sing(list[random])
 }
 
 function xhrFuc() {
@@ -85,10 +85,12 @@ function createNode() {
 }
 function checkSong(val) {
   currentSong = val
-  audioPlayerComponent.querySelector('#singName').innerHTML = currentSong.name
-  sing(currentSong.contentId)
+  sing(currentSong)
 }
-function sing(contentId) {
+function sing(currentSong) {
+  let contentId = currentSong.contentId
+  audioPlayerTemp.setAttribute('songName', currentSong.name)
+  // audioPlayerTemp.querySelector('#songName').innerHTML = currentSong.name
   // 无损 formatType = SQ resourceType = E
   // 高品 formatType = HQ resourceType = 2
   let uri = `http://app.pd.nf.migu.cn/MIGUM2.0/v1.0/content/sub/listenSong.do?toneFlag=HQ&netType=00&userId=15548614588710179085069&ua=Android_migu&version=5.1&copyrightId=0&contentId=${contentId}&resourceType=2&channel=1`

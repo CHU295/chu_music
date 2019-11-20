@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
   <link rel="icon" href="data:image/ico;base64,aWNv">
-  <link rel="import" href="./audioPlayer/index.html" id="audioPlayer"/>
   <title>土味播放器</title>
   <style>
     .pointer {
@@ -42,7 +41,10 @@
       <div id="song-list">
       </div>
     </div>
-    <audio-player></audio-player>
+    <audio-player>
+      <span id="songName" slot="song-name"></span>
+    </audio-player>
+    <my-button label="Click Me"></my-button>
 
     <div>
       <audio controls autoplay src="" id="audio">
@@ -51,5 +53,9 @@
     </div>
   </div>
   <script src="./index.js"></script>
+  <script type="module">
+    import './audioPlayer/index.js'
+  </script>
 </body>
+
 </html>
