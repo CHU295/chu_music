@@ -127,7 +127,6 @@ window.customElements.define('audio-player', AudioPlayer);
 function getDuration() {
   let currentTime = Math.floor(audio.currentTime),
     duration = Math.floor(audio.duration)
-  console.log(currentTime, duration)
   changeProgressLine(currentTime, duration)
 }
 function changeProgressLine(cur, all) {
