@@ -22,30 +22,6 @@ template.innerHTML = `
       position: relative;
       margin: 10px 0;
     }
-    .bg-line {
-      height: 6px;
-      background: #eaeaea;
-      border-radius: 6px;
-    }
-    .pass-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 6px;
-      right: 100%;
-      background: #d4d2d2;
-    }
-    .rBtn {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      background: #9eb8ff;
-      border-radius: 20px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      transform: translate(50%,-7px);
-    }
     input[type=range] {
       -webkit-appearance: none;
       width: 100%;
@@ -77,10 +53,6 @@ template.innerHTML = `
     <h1 class="songName"></h1>
 
     <div class="progressBar">
-      <div class="bg-line"></div>
-      <div class="pass-line">
-        <span class="rBtn"></span>
-      </div>
       <input type="range" id="input-range" value="0" />
     </div>
     <div>
@@ -97,7 +69,6 @@ window.audioPlayer = {
   nextBtn: null, // 下一曲按钮
   playBtn: null, // 播放/暂停按钮
   songName: null, // 当前播放歌曲名
-  progressBar: null, // 进度条控制
   progressTime: '00:00', // 已播放时间
   songProgressTime: null, // 当前歌曲总时间标签
   InputProgressBar: null, // 进度条input
@@ -117,7 +88,6 @@ class AudioPlayer extends HTMLElement {
     audioPlayer.preBtn = audioPlayerTemp.shadowRoot.querySelector('.preBtn')
     audioPlayer.playBtn = audioPlayerTemp.shadowRoot.querySelector('.playBtn')
     audioPlayer.songName = audioPlayerTemp.shadowRoot.querySelector('.songName')
-    audioPlayer.progressBar = audioPlayerTemp.shadowRoot.querySelector('.pass-line')
     audioPlayer.songProgressTime = audioPlayerTemp.shadowRoot.querySelector('.songProgressTime')
     audioPlayer.InputProgressBar = audioPlayerTemp.shadowRoot.querySelector('#input-range')
     this.addEvents()
@@ -152,9 +122,6 @@ class AudioPlayer extends HTMLElement {
         audio.play()
         audioPlayer.playBtn.innerText = '暂停'
       }
-    }
-    audioPlayer.progressBar.onclick = () => {
-      console.log('下一首，开发中')
     }
     audioPlayer.InputProgressBar.ontouchstart = () => {
       audio.pause()
@@ -193,7 +160,6 @@ function getDuration() {
 }
 function changeProgressLine(cur, all) {
   let progressBarPosition = (cur / all).toFixed(2)
-  audioPlayer.progressBar.style.right = (1 - progressBarPosition) * 100 + '%'
   audioPlayer.InputProgressBar.value = progressBarPosition * 100
   audioPlayer.songProgressTime.innerText = formateMm(cur) + ' / ' + formateMm(all)
 }
