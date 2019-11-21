@@ -71,20 +71,20 @@ function xhrFuc() {
   xhr.send();
 }
 
-function createSingleNode(val) {
-  return `<div class="pointer" ><span>${val.singers && val.singers.length > 0 ? val.singers[0].name : ''}</span> - <span onclick="checkSong(${JSON.stringify(val).replace(/"/g, '&quot;')})">${val.name}</span></div>`
+function createSingleNode(val,index) {
+  return `<div ><span class="pointer">${val.singers && val.singers.length > 0 ? val.singers[0].name : ''}</span> - <span class="pointer" onclick="checkSong(${index})">${val.name}</span></div>`
 }
 function createNode() {
   var node = '<div>'
-  list.map(i => {
-    node += createSingleNode(i)
+  list.map((i,index) => {
+    node += createSingleNode(i,index)
   })
   node += '</div>'
   document.querySelector('#song-list').innerHTML = node
   document.querySelector('#operation').style.visibility = 'visible'
 }
 function checkSong(val) {
-  currentSong = val
+  currentSong = list[val]
   sing(currentSong)
 }
 function sing(currentSong) {

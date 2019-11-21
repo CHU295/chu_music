@@ -46,6 +46,32 @@ template.innerHTML = `
       top: 0;
       transform: translate(50%,-7px);
     }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 6px; /*将轨道设为圆角的*/
+      box-shadow: 0 1px 1px #d4d2d2, inset 0 .125em .125em #eaeaea; /*轨道内置阴影效果*/
+    }    
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 15px;
+      width: 15px;
+      margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+      background: #9eb8ff; 
+      border-radius: 50%; /*外观设置为圆形*/
+      border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+      box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+    }
   </style>
   <div class="audio-player">
     <h1 class="songName"></h1>
@@ -55,9 +81,10 @@ template.innerHTML = `
       <div class="pass-line">
         <span class="rBtn"></span>
       </div>
+      <input type="range" id="input-range" value="0" />
     </div>
     <div>
-      <p class="songProgressTime"></p>
+      <p class="songProgressTime">00:00 / --:--</p>
       <span class="btn preBtn">上一曲</span>
       <span id="playOrpause" class="btn playBtn">暂停</span>
       <span class="btn nextBtn">下一曲</span>
@@ -73,6 +100,7 @@ window.audioPlayer = {
   progressBar: null, // 进度条控制
   progressTime: '00:00', // 已播放时间
   songProgressTime: null, // 当前歌曲总时间标签
+  InputProgressBar: null, // 进度条input
 }
 class AudioPlayer extends HTMLElement {
   constructor() {
@@ -91,6 +119,7 @@ class AudioPlayer extends HTMLElement {
     audioPlayer.songName = audioPlayerTemp.shadowRoot.querySelector('.songName')
     audioPlayer.progressBar = audioPlayerTemp.shadowRoot.querySelector('.pass-line')
     audioPlayer.songProgressTime = audioPlayerTemp.shadowRoot.querySelector('.songProgressTime')
+    audioPlayer.InputProgressBar = audioPlayerTemp.shadowRoot.querySelector('#input-range')
     this.addEvents()
   }
 
@@ -127,12 +156,30 @@ class AudioPlayer extends HTMLElement {
     audioPlayer.progressBar.onclick = () => {
       console.log('下一首，开发中')
     }
+    audioPlayer.InputProgressBar.ontouchstart = () => {
+      audio.pause()
+    }
+    audioPlayer.InputProgressBar.onmousedown = () => {
+      audio.pause()
+    }
+    audioPlayer.InputProgressBar.onmouseup = () => {
+      progressChange()
+    }
+    audioPlayer.InputProgressBar.ontouchend = () => {
+      progressChange()
+    }
   }
 }
 
 window.customElements.define('audio-player', AudioPlayer);
 
 // 进度条
+function progressChange() {
+  let pro = audioPlayer.InputProgressBar.value
+  let currentTime = Math.floor(audio.duration * pro / 100)
+  audio.currentTime = currentTime
+  audio.play()
+}
 function formateMm(val) {
   let M = Math.floor(val / 60)
   let m = val % 60
@@ -145,8 +192,9 @@ function getDuration() {
   changeProgressLine(currentTime, duration)
 }
 function changeProgressLine(cur, all) {
-  let progressBarPosition = 1 - (cur / all).toFixed(2)
-  audioPlayer.progressBar.style.right = progressBarPosition * 100 + '%'
+  let progressBarPosition = (cur / all).toFixed(2)
+  audioPlayer.progressBar.style.right = (1 - progressBarPosition) * 100 + '%'
+  audioPlayer.InputProgressBar.value = progressBarPosition * 100
   audioPlayer.songProgressTime.innerText = formateMm(cur) + ' / ' + formateMm(all)
 }
 var playStatusInterval
