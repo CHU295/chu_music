@@ -12,6 +12,7 @@
     .pointer {
       cursor: pointer;
     }
+
     .song-list {
       margin-bottom: 110px;
     }
@@ -24,6 +25,7 @@
 </head>
 
 <body>
+  <h3 style="color: transparent;text-align: center;background: red; -webkit-background-clip: text;">部署到服务器才能运行!</h3>
   <div>
     <div style="text-align: center;">
       <input id="searchValue" value="周杰伦" type="text" oninput="change(this,'searchValue')"
@@ -58,6 +60,9 @@
   <script type="module">
     import './audioPlayer/index.js'
   </script>
+
+  <p style="color: turquoise;">目前以实现主功能为主！样式及代码优化后面改</p>
+  <p style="color: turquoise;">还没来得及做兼容性，尽量在最新版Chrome中使用</p>
 </body>
 
 </html>
