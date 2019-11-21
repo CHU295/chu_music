@@ -1,6 +1,6 @@
 demo：http://118.25.55.180:2951/
 -------
-
+>**<label style="color:red">部署到服务器才能运行</label>!**
 # chu_music
 >【醒目】master分支较乱，包含大量开发代码
 
