@@ -2,7 +2,11 @@ const template = document.createElement('template');
 template.innerHTML = `
 <style>
     .audio-player {
-      margin: 20px 0;
+      position: fixed;
+      left: 1%;
+      right: 1%;
+      bottom: 3px;
+      background: #fff;
       text-align: center;
       padding: 20px;
       box-shadow: 0px 0px 9px 3px #ddd;
