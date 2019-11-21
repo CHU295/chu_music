@@ -49,6 +49,7 @@ template.innerHTML = `
   </style>
   <div class="audio-player">
     <h1 class="songName"></h1>
+
     <div class="progressBar">
       <div class="bg-line"></div>
       <div class="pass-line">
@@ -56,6 +57,7 @@ template.innerHTML = `
       </div>
     </div>
     <div>
+      <p class="songProgressTime"></p>
       <span class="btn preBtn">上一曲</span>
       <span id="playOrpause" class="btn playBtn">暂停</span>
       <span class="btn nextBtn">下一曲</span>
@@ -69,6 +71,8 @@ window.audioPlayer = {
   playBtn: null, // 播放/暂停按钮
   songName: null, // 当前播放歌曲名
   progressBar: null, // 进度条控制
+  progressTime: '00:00', // 已播放时间
+  songProgressTime: null, // 当前歌曲总时间标签
 }
 class AudioPlayer extends HTMLElement {
   constructor() {
@@ -86,6 +90,7 @@ class AudioPlayer extends HTMLElement {
     audioPlayer.playBtn = audioPlayerTemp.shadowRoot.querySelector('.playBtn')
     audioPlayer.songName = audioPlayerTemp.shadowRoot.querySelector('.songName')
     audioPlayer.progressBar = audioPlayerTemp.shadowRoot.querySelector('.pass-line')
+    audioPlayer.songProgressTime = audioPlayerTemp.shadowRoot.querySelector('.songProgressTime')
     this.addEvents()
   }
 
@@ -128,6 +133,12 @@ class AudioPlayer extends HTMLElement {
 window.customElements.define('audio-player', AudioPlayer);
 
 // 进度条
+function formateMm(val) {
+  let M = Math.floor(val / 60)
+  let m = val % 60
+  M = M.toString().length === 1 ? '0' + M : M
+  return M + ':' + m
+}
 function getDuration() {
   let currentTime = Math.floor(audio.currentTime),
     duration = Math.floor(audio.duration)
@@ -136,6 +147,7 @@ function getDuration() {
 function changeProgressLine(cur, all) {
   let progressBarPosition = 1 - (cur / all).toFixed(2)
   audioPlayer.progressBar.style.right = progressBarPosition * 100 + '%'
+  audioPlayer.songProgressTime.innerText = formateMm(cur) + ' / ' + formateMm(all)
 }
 var playStatusInterval
 audio.addEventListener("playing", function () {		//播放状态Doing
