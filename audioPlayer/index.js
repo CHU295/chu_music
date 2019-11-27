@@ -6,11 +6,18 @@ template.innerHTML = `
       left: 1%;
       right: 1%;
       bottom: 3px;
+      height: 100px;
       background: #fff;
       text-align: center;
-      padding: 20px;
+      padding: 10px 20px;
       box-shadow: 0px 0px 9px 3px #ddd;
       border-radius: 10px;
+    }
+    .songName {
+      height: 30px;
+      font-size: 20px;
+      padding: 0;
+      margin: 0;
     }
     .btn {
       display: inline-block;
@@ -20,7 +27,7 @@ template.innerHTML = `
     }
     .progressBar {
       position: relative;
-      margin: 10px 0;
+      margin: 0 0 10px 0;
     }
     input[type=range] {
       -webkit-appearance: none;
@@ -50,16 +57,16 @@ template.innerHTML = `
     }
   </style>
   <div class="audio-player">
-    <h1 class="songName"></h1>
+    <p class="songName">213</p>
 
     <div class="progressBar">
       <input type="range" id="input-range" value="0" />
     </div>
     <div>
-      <p class="songProgressTime">00:00 / --:--</p>
-      <span class="btn preBtn">上一曲</span>
+      <span class="songProgressTime">00:00 / --:--</span>
+      <span class="btn preBtn" style="visibility: hidden;">上一曲</span>
       <span id="playOrpause" class="btn playBtn">暂停</span>
-      <span class="btn nextBtn">下一曲</span>
+      <span class="btn nextBtn" style="visibility: hidden;">下一曲</span>
     </div>
   </div>
 `
