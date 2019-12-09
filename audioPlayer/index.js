@@ -158,6 +158,7 @@ function formateMm(val) {
   let M = Math.floor(val / 60)
   let m = val % 60
   M = M.toString().length === 1 ? '0' + M : M
+  m = m.toString().length === 1 ? '0' + m : m
   return M + ':' + m
 }
 function getDuration() {
