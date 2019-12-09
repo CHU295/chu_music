@@ -57,7 +57,7 @@ template.innerHTML = `
     }
   </style>
   <div class="audio-player">
-    <p class="songName">213</p>
+    <p class="songName"></p>
 
     <div class="progressBar">
       <input type="range" id="input-range" value="0" />
